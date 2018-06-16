@@ -103,7 +103,7 @@ namespace TaskList.BLL.Services
         /// <param name="priority">The priority.</param>
         public void SetPriority(int taskId, int priority)
         {
-            if(priority <= 0)
+            if (priority <= 0)
             {
                 return;
             }
@@ -139,7 +139,12 @@ namespace TaskList.BLL.Services
             similar.Priority++;
             yield return similar;
 
-            ShiftTasksDueToPriority(similar.Priority, tasks.Where(t => t.Id != similar.Id));
+            foreach (var task in ShiftTasksDueToPriority(
+                similar.Priority,
+                tasks.Where(t => t.Id != similar.Id).ToList()))
+            {
+                yield return task;
+            };
         }
 
         /// <summary>
