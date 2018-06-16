@@ -9,3 +9,14 @@ D:\assignment\TaskList\TaskList\obj\Debug\netcoreapp2.0\TaskList.AssemblyInfoInp
 D:\assignment\TaskList\TaskList\obj\Debug\netcoreapp2.0\TaskList.AssemblyInfo.cs
 D:\assignment\TaskList\TaskList\obj\Debug\netcoreapp2.0\TaskList.dll
 D:\assignment\TaskList\TaskList\obj\Debug\netcoreapp2.0\TaskList.pdb
+D:\assignment\tasklist\TaskList\TaskList\bin\Debug\netcoreapp2.0\TaskList.deps.json
+D:\assignment\tasklist\TaskList\TaskList\bin\Debug\netcoreapp2.0\TaskList.runtimeconfig.json
+D:\assignment\tasklist\TaskList\TaskList\bin\Debug\netcoreapp2.0\TaskList.runtimeconfig.dev.json
+D:\assignment\tasklist\TaskList\TaskList\bin\Debug\netcoreapp2.0\TaskList.dll
+D:\assignment\tasklist\TaskList\TaskList\bin\Debug\netcoreapp2.0\TaskList.pdb
+D:\assignment\tasklist\TaskList\TaskList\obj\Debug\netcoreapp2.0\TaskList.csprojAssemblyReference.cache
+D:\assignment\tasklist\TaskList\TaskList\obj\Debug\netcoreapp2.0\TaskList.csproj.CoreCompileInputs.cache
+D:\assignment\tasklist\TaskList\TaskList\obj\Debug\netcoreapp2.0\TaskList.AssemblyInfoInputs.cache
+D:\assignment\tasklist\TaskList\TaskList\obj\Debug\netcoreapp2.0\TaskList.AssemblyInfo.cs
+D:\assignment\tasklist\TaskList\TaskList\obj\Debug\netcoreapp2.0\TaskList.dll
+D:\assignment\tasklist\TaskList\TaskList\obj\Debug\netcoreapp2.0\TaskList.pdb
