@@ -103,6 +103,11 @@ namespace TaskList.BLL.Services
         /// <param name="priority">The priority.</param>
         public void SetPriority(int taskId, int priority)
         {
+            if(priority <= 0)
+            {
+                return;
+            }
+
             var taskToPrioritize = GetTaskById(taskId);
             var tasksToUpdatePriority = _repository
                 .Get(x => priority <= x.Priority && x.Id != taskToPrioritize.Id)
