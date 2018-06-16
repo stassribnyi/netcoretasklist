@@ -164,6 +164,13 @@ namespace TaskList.BLL.Services
         /// <param name="nearestItemByPriorityPredicate">The nearest item by priority predicate.</param>
         private void SwapWithNearestItem(int taskId, Func<TaskModel, int, bool> nearestItemByPriorityPredicate)
         {
+            // Maybe there should be implementation that will check if nearest task 
+            // priority - 1 or + 1 (depends on expression) is not equal to current task 
+            // with priority - 1 or + 1 (depends on expression) we will not swap it 
+            
+            // I have decided that it will be more user friendly if up/down priority will 
+            // actualy swap elements within themselfs
+
             var taskToChangePriority = GetTaskById(taskId);
             var taskToSwapWith = _repository.Get(x => nearestItemByPriorityPredicate(x, taskToChangePriority.Priority)).FirstOrDefault();
 
