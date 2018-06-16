@@ -70,6 +70,11 @@ namespace TaskList.DAL.Repositories
         /// <returns>The created model.</returns>
         public TaskModel Create(TaskModel model)
         {
+            model.Id = _taskSource
+                .OrderBy(x => x.Id)
+                .Select(x => x.Id)
+                .LastOrDefault() + 1;
+
             _taskSource.Add(model);
 
             return Get(x => x.Id == model.Id).FirstOrDefault();
