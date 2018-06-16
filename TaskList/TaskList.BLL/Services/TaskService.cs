@@ -42,7 +42,13 @@ namespace TaskList.BLL.Services
         public TaskDto Create(TaskDto dto)
         {
             var taskToCreate = Mapper.Map<TaskModel>(dto);
+            var lowerPriority = _repository
+                .Get()
+                .OrderBy(x => x.Priority)
+                .Select(x => x.Priority)
+                .LastOrDefault();
 
+            taskToCreate.Priority = lowerPriority + 1;
             var createdTask = _repository.Create(taskToCreate);
 
             return Mapper.Map<TaskDto>(createdTask);
@@ -105,11 +111,30 @@ namespace TaskList.BLL.Services
 
             taskToPrioritize.Priority = priority;
 
-            tasksToUpdatePriority.ForEach(x => x.Priority++);
+            tasksToUpdatePriority = ShiftTasksDueToPriority(priority, tasksToUpdatePriority).ToList();
 
             tasksToUpdatePriority.Add(taskToPrioritize);
 
             _repository.BulkUpdate(tasksToUpdatePriority);
+        }
+
+        /// <summary>
+        /// Shifts the tasks due to priority.
+        /// </summary>
+        /// <param name="priority">The priority.</param>
+        /// <param name="tasks">The tasks.</param>
+        private IEnumerable<TaskModel> ShiftTasksDueToPriority(int priority, IEnumerable<TaskModel> tasks)
+        {
+            var similar = tasks.FirstOrDefault(t => t.Priority == priority);
+            if (similar == null)
+            {
+                yield break;
+            }
+
+            similar.Priority++;
+            yield return similar;
+
+            ShiftTasksDueToPriority(similar.Priority, tasks.Where(t => t.Id != similar.Id));
         }
 
         /// <summary>
@@ -129,12 +154,17 @@ namespace TaskList.BLL.Services
         /// <param name="nearestItemByPriorityPredicate">The nearest item by priority predicate.</param>
         private void SwapWithNearestItem(int taskId, Func<TaskModel, int, bool> nearestItemByPriorityPredicate)
         {
-            var taskToUp = GetTaskById(taskId);
-            var taskToDown = _repository.Get(x=>nearestItemByPriorityPredicate(x, taskToUp.Priority)).FirstOrDefault();
+            var taskToChangePriority = GetTaskById(taskId);
+            var taskToSwapWith = _repository.Get(x => nearestItemByPriorityPredicate(x, taskToChangePriority.Priority)).FirstOrDefault();
 
-            SwapPriority(taskToDown, taskToUp);
+            if (taskToSwapWith == null)
+            {
+                return;
+            }
 
-            _repository.BulkUpdate(new List<TaskModel> { taskToDown, taskToUp });
+            SwapPriority(taskToSwapWith, taskToChangePriority);
+
+            _repository.BulkUpdate(new List<TaskModel> { taskToSwapWith, taskToChangePriority });
         }
 
         /// <summary>

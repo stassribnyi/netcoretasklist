@@ -67,7 +67,7 @@ namespace TaskList
             // may be some kind of proxy service that will be available in each project 
             // with allows use it to register deps, need to INVESTIGATE
             builder.RegisterType<TaskService>().As<ITaskService>();
-            builder.RegisterType<TaskRepositoryMock>().As<ITaskRepository>();
+            builder.RegisterType<TaskRepositoryMock>().As<ITaskRepository>().SingleInstance();
             this.ApplicationContainer = builder.Build();
 
 

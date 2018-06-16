@@ -6,6 +6,7 @@ using AutoMapper;
 
 using TaskList.BLL.Interfaces;
 using TaskList.Models;
+using TaskList.BLL.Dtos;
 
 namespace TaskList.Controllers
 {
@@ -33,29 +34,39 @@ namespace TaskList.Controllers
             return _taskService.GetAll().Select(x => Mapper.Map<TaskModel>(x)).ToList();
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
+        // POST api/tasks
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]TaskModel model)
         {
+            _taskService.Create(Mapper.Map<TaskDto>(model));
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        // PUT api/tasks/2/uppriority
+        [HttpPut("{id}/uppriority")]
+        public void PutUpPriority(int id)
         {
+            _taskService.UpPriority(id);
         }
 
-        // DELETE api/values/5
+        // PUT api/tasks/2/downpriority
+        [HttpPut("{id}/downpriority")]
+        public void PutDownPriority(int id)
+        {
+            _taskService.DownPriority(id);
+        }
+
+        // PUT api/tasks/2/setpriority
+        [HttpPut("{id}/setpriority")]
+        public void PutSetPriority(int id, [FromBody]int priority)
+        {
+            _taskService.SetPriority(id, priority);
+        }
+
+        // DELETE api/tasks/2
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _taskService.Delete(id);
         }
     }
 }
