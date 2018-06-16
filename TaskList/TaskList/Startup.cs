@@ -1,15 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using System;
+
+using TaskList.BLL.Dtos;
+using TaskList.BLL.Interfaces;
+using TaskList.BLL.Services;
+using TaskList.DAL.Interfaces;
+using TaskList.DAL.Repositories;
 
 namespace TaskList
 {
@@ -59,8 +62,21 @@ namespace TaskList
             // in the ServiceCollection. Mix and match as needed.
             builder.Populate(services);
 
-            //builder.RegisterType<MyType>().As<IMyType>();
+            // TODO there should be better solution to registeer deps 
+            // without referencing it into one project
+            // may be some kind of proxy service that will be available in each project 
+            // with allows use it to register deps, need to INVESTIGATE
+            builder.RegisterType<TaskService>().As<ITaskService>();
+            builder.RegisterType<TaskRepositoryMock>().As<ITaskRepository>();
             this.ApplicationContainer = builder.Build();
+
+
+            // It is also wrong approach, if i am not mistaken there should be ability 
+            // to define mapper configuration in place where it is used
+            Mapper.Initialize(cfg => {
+                cfg.CreateMap<TaskDto, DAL.Models.TaskModel>();
+                cfg.CreateMap<TaskDto, Models.TaskModel>();
+            });
 
             // Create the IServiceProvider based on the container.
             return new AutofacServiceProvider(this.ApplicationContainer);
@@ -92,3 +108,4 @@ namespace TaskList
         }
     }
 }
+

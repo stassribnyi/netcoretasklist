@@ -16,7 +16,7 @@ namespace TaskList.BLL.Services
     /// Class implementing task service functionality
     /// </summary>
     /// <seealso cref="TaskList.BLL.Interfaces.ITaskService" />
-    internal class TaskService : ITaskService
+    public class TaskService : ITaskService
     {
         /// <summary>
         /// The repository

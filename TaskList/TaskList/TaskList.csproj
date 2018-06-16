@@ -19,4 +19,9 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TaskList.BLL\TaskList.BLL.csproj" />
+    <ProjectReference Include="..\TaskList.DAL\TaskList.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

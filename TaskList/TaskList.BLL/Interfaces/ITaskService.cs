@@ -4,7 +4,7 @@ using TaskList.BLL.Dtos;
 
 namespace TaskList.BLL.Interfaces
 {
-    internal interface ITaskService
+    public interface ITaskService
     {
         /// <summary>
         /// Gets all.

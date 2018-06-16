@@ -1,9 +1,9 @@
-﻿namespace TaskList.BLL.Dtos
+﻿namespace TaskList.Models
 {
     /// <summary>
     /// Class describing task dto
     /// </summary>
-    public class TaskDto
+    public class TaskModel
     {
         /// <summary>
         /// Gets or sets the identifier.
