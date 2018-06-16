@@ -12668,11 +12668,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\assignment\\TaskList\\TaskList\\TaskList.csproj",
+      "projectUniqueName": "D:\\assignment\\tasklist\\TaskList\\TaskList\\TaskList.csproj",
       "projectName": "TaskList",
-      "projectPath": "D:\\assignment\\TaskList\\TaskList\\TaskList.csproj",
+      "projectPath": "D:\\assignment\\tasklist\\TaskList\\TaskList\\TaskList.csproj",
       "packagesPath": "C:\\Users\\Galafen\\.nuget\\packages\\",
-      "outputPath": "D:\\assignment\\TaskList\\TaskList\\obj\\",
+      "outputPath": "D:\\assignment\\tasklist\\TaskList\\TaskList\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
