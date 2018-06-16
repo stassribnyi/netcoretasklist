@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using Moq;
+﻿using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using TaskList.BLL.Dtos;
+using System.Linq;
+
 using TaskList.BLL.Interfaces;
 using TaskList.BLL.Services;
 using TaskList.DAL.Interfaces;
@@ -12,19 +12,19 @@ using TaskList.DAL.Models;
 namespace TaskList.BLL.Tests
 {
     [TestFixture]
-    public class TaskService_Create
+    public class TaskService_GetAll
     {
         private readonly ITaskService _taskService;
         private readonly Mock<ITaskRepository> _taskRepositoryMock;
 
-        public TaskService_Create()
+        public TaskService_GetAll()
         {
             _taskRepositoryMock = new Mock<ITaskRepository>();
             _taskService = new TaskService(_taskRepositoryMock.Object);
         }
 
         [Test]
-        public void CreateShouldMakeAppropriativeTask()
+        public void ShouldBeThreeTasks()
         {
             // Arange
             var firstTask = new TaskModel { Id = 1, Priority = 1, Name = "First task" };
@@ -37,25 +37,25 @@ namespace TaskList.BLL.Tests
                     (Func<TaskModel, bool> p) =>
                         new List<TaskModel> { firstTask, secondTask, thirdTask });
 
-            var descriptionTest = "Description Test";
-            var task = new TaskDto
-            {
-                Name = "Description Test"
-            };
-
             // Act
-            _taskService.Create(task);
+            var result = _taskService.GetAll();
 
             // Assert
             _taskRepositoryMock
-                .Verify(c => c.Create(
-                    It.Is<TaskModel>(model => model.Name == descriptionTest
-                                                && model.Priority == secondTask.Priority + 1)),
+                .Verify(c => c.Get(
+                    It.Is<Func<TaskModel, bool>>(predicate => predicate == null)),
                     Times.Once());
+
+            Assert.AreEqual(result.Count(), 3);
+
+            var last = result.Last();
+            Assert.AreEqual(last.Id, secondTask.Id);
+            Assert.AreEqual(last.Name, secondTask.Name);
+            Assert.AreEqual(last.Priority, secondTask.Priority);
         }
 
         [Test]
-        public void FirstTimeCreatePriorityShouldBeOne()
+        public void ShouldBeZeroTasks()
         {
             // Arange
             _taskRepositoryMock.ResetCalls();
@@ -63,23 +63,18 @@ namespace TaskList.BLL.Tests
                 .Setup(x => x.Get(It.Is<Func<TaskModel, bool>>(p => p == null)))
                 .Returns(
                     (Func<TaskModel, bool> p) =>
-                        new List<TaskModel>());
-
-            var descriptionTest = "Description Test";
-            var task = new TaskDto
-            {
-                Name = "Description Test"
-            };
+                        new List<TaskModel> { });
 
             // Act
-            _taskService.Create(task);
+            var result = _taskService.GetAll();
 
             // Assert
             _taskRepositoryMock
-                .Verify(c => c.Create(
-                    It.Is<TaskModel>(model => model.Name == descriptionTest
-                                                && model.Priority == 1)),
+                .Verify(c => c.Get(
+                    It.Is<Func<TaskModel, bool>>(predicate => predicate == null)),
                     Times.Once());
+
+            Assert.AreEqual(result.Count(), 0);
         }
     }
 }
